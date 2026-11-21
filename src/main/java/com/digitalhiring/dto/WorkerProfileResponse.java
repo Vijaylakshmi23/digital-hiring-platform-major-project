@@ -7,6 +7,7 @@ public class WorkerProfileResponse {
 
     private Long id;
     private String name;
+    private String email;
     private String mobileNumber;
     private String profession;
     private String skills;
@@ -22,6 +23,7 @@ public class WorkerProfileResponse {
 
         this.id = worker.getId();
         this.name = worker.getUser().getName();
+        this.email = worker.getUser().getEmail();
         this.mobileNumber = worker.getUser().getMobileNumber();
         this.profession = worker.getProfession();
         this.skills = worker.getSkills();
@@ -40,6 +42,10 @@ public class WorkerProfileResponse {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getMobileNumber() {
