@@ -27,6 +27,12 @@ interface WorkerProfileData {
   email?: string;
   mobileNumber?: string;
   role?: string;
+  profession: string | null;
+  skills: string | null;
+  location: string | null;
+  description: string | null;
+  wageType: string | null;
+  availabilityStatus: string | null;
   expectedWage: number | null;
   experience: number | null;
   profileImageUrl: string | null;
@@ -50,6 +56,7 @@ interface RatingSummary {
 
 export default function WorkerProfile() {
   const [profile, setProfile] = useState<WorkerProfileData | null>(null);
+  const [profession, setProfession] = useState("");
   const [experience, setExperience] = useState("");
   const [expectedWage, setExpectedWage] = useState("");
 
@@ -86,6 +93,7 @@ export default function WorkerProfile() {
       );
 
       setProfile(response.data);
+      setProfession(response.data.profession ?? "");
       setExperience(String(response.data.experience ?? 0));
       setExpectedWage(String(response.data.expectedWage ?? 0));
     } catch (err) {
@@ -156,13 +164,20 @@ export default function WorkerProfile() {
       const response = await axios.put<WorkerProfileData>(
         `${API_BASE_URL}/api/workers/me`,
         {
+          profession: profession.trim(),
+          skills: profile.skills,
+          location: profile.location,
+          description: profile.description,
           experience: experienceValue,
           expectedWage: wageValue,
+          wageType: profile.wageType,
+          availabilityStatus: profile.availabilityStatus,
         },
         authConfig
       );
 
       setProfile(response.data);
+      setProfession(response.data.profession ?? "");
       setExperience(String(response.data.experience ?? 0));
       setExpectedWage(String(response.data.expectedWage ?? 0));
       setEditing(false);
@@ -270,6 +285,7 @@ export default function WorkerProfile() {
   };
 
   const cancelEditing = () => {
+    setProfession(profile?.profession ?? "");
     setExperience(String(profile?.experience ?? 0));
     setExpectedWage(String(profile?.expectedWage ?? 0));
     setEditing(false);
@@ -440,7 +456,7 @@ export default function WorkerProfile() {
                   {profile.name || "Worker"}
                 </h2>
                 <p className="mt-1 text-sm font-medium text-blue-600">
-                  {profile.role || "WORKER"}
+                  {profile.profession || "Profession not added yet"}
                 </p>
                 <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs text-gray-500 sm:justify-start">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1.5 font-semibold text-green-700">
@@ -590,6 +606,30 @@ export default function WorkerProfile() {
           {editing ? (
             <form onSubmit={handleUpdate} className="space-y-5">
               <div className="grid gap-5 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label
+                    htmlFor="profession"
+                    className="mb-2 block text-sm font-semibold text-gray-700"
+                  >
+                    Profession
+                  </label>
+                  <div className="relative">
+                    <Briefcase
+                      size={17}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      id="profession"
+                      type="text"
+                      maxLength={100}
+                      required
+                      value={profession}
+                      onChange={(e) => setProfession(e.target.value)}
+                      placeholder="e.g. Carpenter, Plumber, Electrician"
+                      className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    />
+                  </div>
+                </div>
                 <div>
                   <label
                     htmlFor="experience"
@@ -669,6 +709,11 @@ export default function WorkerProfile() {
           ) : (
             <>
               <div className="grid gap-4 sm:grid-cols-2">
+                <InfoCard
+                  icon={<Briefcase size={18} />}
+                  label="Profession"
+                  value={profile.profession || "Not specified"}
+                />
                 <InfoCard
                   icon={<Briefcase size={18} />}
                   label="Work Experience"
