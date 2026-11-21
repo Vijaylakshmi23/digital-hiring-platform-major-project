@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../services/api";
 import {
@@ -34,6 +35,7 @@ interface Booking {
 const API_URL = API_BASE_URL;
 
 export default function WorkerAvailabilityPreview() {
+  const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [days, setDays] = useState<AvailabilityDay[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -139,7 +141,7 @@ export default function WorkerAvailabilityPreview() {
         </div>
 
         <button
-          onClick={() => window.location.href = "/worker/availability"}
+          onClick={() => navigate("/worker/availability")}
           className="text-sm font-semibold text-blue-600 hover:text-blue-800"
         >
           Manage
