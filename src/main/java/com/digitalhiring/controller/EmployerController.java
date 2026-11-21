@@ -68,6 +68,7 @@ public class EmployerController {
 
         private Long id;
         private String employerName;
+        private String mobileNumber;
         private String companyName;
         private EmployerType employerType;
         private String location;
@@ -77,6 +78,7 @@ public class EmployerController {
         public EmployerProfileResponse(Employer employer) {
             this.id = employer.getId();
             this.employerName = employer.getUser().getName();
+            this.mobileNumber = employer.getUser().getMobileNumber();
             this.companyName = employer.getCompanyName();
             this.employerType = employer.getEmployerType();
             this.location = employer.getLocation();
@@ -90,6 +92,10 @@ public class EmployerController {
 
         public String getEmployerName() {
             return employerName;
+        }
+
+        public String getMobileNumber() {
+            return mobileNumber;
         }
 
         public String getCompanyName() {
