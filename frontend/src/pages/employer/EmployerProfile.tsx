@@ -16,6 +16,7 @@ import {
 interface EmployerProfileData {
   id: number;
   employerName: string;
+  email?: string;
   mobileNumber?: string;
   companyName: string | null;
   employerType: "INDIVIDUAL" | "BUSINESS" | null;
@@ -472,6 +473,11 @@ export default function EmployerProfile() {
               <ProfileField
                 label="Company / Employer Name"
                 value={profile.companyName || "Not provided"}
+              />
+
+              <ProfileField
+                label="Email Address"
+                value={profile.email || "Not provided"}
               />
 
               <ProfileField
