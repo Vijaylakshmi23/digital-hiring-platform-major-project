@@ -20,6 +20,7 @@ interface JobApplication {
   jobTitle: string;
   workerId: number;
   workerName: string;
+  workerProfession?: string | null;
   message: string;
   status: string;
   appliedAt: string;
@@ -530,6 +531,9 @@ function Applications() {
                           <p className="text-xs text-slate-500">Applicant</p>
                           <p className="font-semibold text-slate-800">
                             {application.workerName}
+                          </p>
+                          <p className="mt-1 text-sm font-medium text-blue-700">
+                            {application.workerProfession || "Profession not provided"}
                           </p>
                         </div>
                       </div>
