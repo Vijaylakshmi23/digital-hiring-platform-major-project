@@ -11,6 +11,7 @@ import {
   XCircle,
   CalendarDays,
   UserRound,
+  MapPin,
   CalendarCheck,
 } from "lucide-react";
 
@@ -21,6 +22,7 @@ interface JobApplication {
   workerId: number;
   workerName: string;
   workerProfession?: string | null;
+  workerLocation?: string | null;
   message: string;
   status: string;
   appliedAt: string;
@@ -534,6 +536,10 @@ function Applications() {
                           </p>
                           <p className="mt-1 text-sm font-medium text-blue-700">
                             {application.workerProfession || "Profession not provided"}
+                          </p>
+                          <p className="mt-1 flex items-center gap-1 text-sm text-slate-600">
+                            <MapPin size={14} />
+                            {application.workerLocation || "Location not provided"}
                           </p>
                         </div>
                       </div>
