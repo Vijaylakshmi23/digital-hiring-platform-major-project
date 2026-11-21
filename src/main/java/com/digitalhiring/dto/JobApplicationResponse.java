@@ -12,6 +12,7 @@ public class JobApplicationResponse {
     private String jobTitle;
     private Long workerId;
     private String workerName;
+    private String workerProfession;
     private String message;
     private LocalDateTime appliedAt;
     private ApplicationStatus status;
@@ -22,6 +23,7 @@ public class JobApplicationResponse {
         this.jobTitle = application.getJob().getTitle();
         this.workerId = application.getWorker().getId();
         this.workerName = application.getWorker().getUser().getName();
+        this.workerProfession = application.getWorker().getProfession();
         this.message = application.getMessage();
         this.appliedAt = application.getAppliedAt();
         this.status = application.getStatus();
@@ -32,6 +34,7 @@ public class JobApplicationResponse {
     public String getJobTitle() { return jobTitle; }
     public Long getWorkerId() { return workerId; }
     public String getWorkerName() { return workerName; }
+    public String getWorkerProfession() { return workerProfession; }
     public String getMessage() { return message; }
     public LocalDateTime getAppliedAt() { return appliedAt; }
     public ApplicationStatus getStatus() { return status; }
