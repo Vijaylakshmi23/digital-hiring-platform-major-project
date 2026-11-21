@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import API_BASE_URL from "../../services/api";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
@@ -14,6 +15,7 @@ interface LoginResponse {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -79,14 +81,24 @@ export default function Login() {
         />
 
         <label className="mb-2 block text-sm font-medium">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="mb-5 w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-blue-500"
-          placeholder="Enter your password"
-        />
+        <div className="relative mb-5">
+          <input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full rounded-lg border border-gray-300 p-3 pr-12 outline-none focus:border-blue-500"
+            placeholder="Enter your password"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((visible) => !visible)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-800"
+          >
+            {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+          </button>
+        </div>
 
         {error && (
           <p className="mb-4 text-sm text-red-600">{error}</p>

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -71,6 +72,13 @@ public class DirectHireRequestService {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Worker, title, location, positive wage, start time and end time are required");
+        }
+
+        LocalDateTime nowInIndia = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
+        if (!dto.getStartDateTime().isAfter(nowInIndia)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Booking start time must be in the future");
         }
 
         if (!dto.getEndDateTime().isAfter(dto.getStartDateTime())) {
