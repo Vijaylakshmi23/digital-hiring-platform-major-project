@@ -172,6 +172,11 @@ export default function WorkerDetails() {
       return;
     }
 
+    if (selectedDate < todayDateString) {
+      setOfferError("You cannot book a worker for a previous date.");
+      return;
+    }
+
     if (
       !jobTitle.trim() ||
       !jobDescription.trim() ||
@@ -284,6 +289,7 @@ export default function WorkerDetails() {
     });
 
   const today = new Date();
+  const todayDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
   const isToday = (dayNumber: number) =>
     calendarYear === today.getFullYear() &&
     calendarMonth === today.getMonth() &&
@@ -643,6 +649,8 @@ export default function WorkerDetails() {
                 const status = getAvailabilityStatus(date);
                 const isSelected = selectedDate === date;
                 const available = status === "AVAILABLE";
+                const isPast = date < todayDateString;
+                const canSelect = available && !isPast;
 
                 const statusStyle =
                   status === "BOOKED"
@@ -655,9 +663,9 @@ export default function WorkerDetails() {
                   <button
                     key={date}
                     type="button"
-                    disabled={!available}
-                    onClick={() => setSelectedDate(date)}
-                    title={`${date}: ${formatStatus(status)}`}
+                    disabled={!canSelect}
+                    onClick={() => canSelect && setSelectedDate(date)}
+                    title={`${date}: ${isPast ? "PAST DATE" : formatStatus(status)}`}
                     className={`relative flex min-h-11 items-center justify-center rounded-lg text-sm font-semibold transition sm:min-h-14 sm:text-base ${statusStyle} ${
                       isSelected
                         ? "z-10 ring-4 ring-blue-500 ring-offset-2"
