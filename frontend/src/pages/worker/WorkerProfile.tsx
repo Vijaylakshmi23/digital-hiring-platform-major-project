@@ -11,6 +11,7 @@ import {
   Camera,
   Trash2,
   Briefcase,
+  MapPin,
   Mail,
   Phone,
   ShieldCheck,
@@ -57,6 +58,7 @@ interface RatingSummary {
 export default function WorkerProfile() {
   const [profile, setProfile] = useState<WorkerProfileData | null>(null);
   const [profession, setProfession] = useState("");
+  const [location, setLocation] = useState("");
   const [experience, setExperience] = useState("");
   const [expectedWage, setExpectedWage] = useState("");
 
@@ -94,6 +96,8 @@ export default function WorkerProfile() {
 
       setProfile(response.data);
       setProfession(response.data.profession ?? "");
+      setLocation(response.data.location ?? "");
+      setLocation(response.data.location ?? "");
       setExperience(String(response.data.experience ?? 0));
       setExpectedWage(String(response.data.expectedWage ?? 0));
     } catch (err) {
@@ -166,7 +170,7 @@ export default function WorkerProfile() {
         {
           profession: profession.trim(),
           skills: profile.skills,
-          location: profile.location,
+          location: location.trim(),
           description: profile.description,
           experience: experienceValue,
           expectedWage: wageValue,
@@ -286,6 +290,7 @@ export default function WorkerProfile() {
 
   const cancelEditing = () => {
     setProfession(profile?.profession ?? "");
+    setLocation(profile?.location ?? "");
     setExperience(String(profile?.experience ?? 0));
     setExpectedWage(String(profile?.expectedWage ?? 0));
     setEditing(false);
@@ -630,6 +635,29 @@ export default function WorkerProfile() {
                     />
                   </div>
                 </div>
+                <div className="sm:col-span-2">
+                  <label
+                    htmlFor="location"
+                    className="mb-2 block text-sm font-semibold text-gray-700"
+                  >
+                    Location
+                  </label>
+                  <div className="relative">
+                    <MapPin
+                      size={17}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      id="location"
+                      type="text"
+                      maxLength={255}
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      placeholder="e.g. Bengaluru, Karnataka"
+                      className="w-full rounded-xl border border-gray-200 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    />
+                  </div>
+                </div>
                 <div>
                   <label
                     htmlFor="experience"
@@ -713,6 +741,11 @@ export default function WorkerProfile() {
                   icon={<Briefcase size={18} />}
                   label="Profession"
                   value={profile.profession || "Not specified"}
+                />
+                <InfoCard
+                  icon={<MapPin size={18} />}
+                  label="Location"
+                  value={profile.location || "Not provided"}
                 />
                 <InfoCard
                   icon={<Briefcase size={18} />}
